@@ -2,43 +2,20 @@
 
 import {ref} from 'vue'
 import { RouterLink, RouterView } from 'vue-router'
+import {io} from  "socket.io-client"
+import Validation from "../modules/Validation.js"
+
+
 
 const email = ref("");
 const password = ref("");
 
-const username =ref("ii");
 const emailErr = ref("");
 const passErr = ref("");
 
+
 const url = "http://localhost:3007/api/login";
 
-const validateEmail = ()=>{
-
-    if(email.value.trim() === ""){
-
-        emailErr.value = "Please provide email";
-
-    }else{
-
-        emailErr.value = "";
-
-    }
-
-}
-
-const validatePassword = ()=>{
-
-    if(password.value.trim() === ""){
-
-        passErr.value = "Please provide password";
-
-    }else{
-
-        passErr.value = "";
-
-    }
-
-}
 
 const login = async()=>{
 
@@ -69,7 +46,7 @@ const login = async()=>{
     }else{
 
         console.log(data.message);
-    
+        const socket = io("http://localhost:3000");
     }
 
 }
@@ -78,9 +55,12 @@ const validateForm = async (e)=>{
 
     e.preventDefault();
 
-    validateEmail();
-    validatePassword();
+    emailErr.value = Validation.validate_email(email.value);
 
+    passErr.value = Validation.validate_password(password.value);
+
+    if(passErr.value !== "") return;
+    
     await login();
 
 }

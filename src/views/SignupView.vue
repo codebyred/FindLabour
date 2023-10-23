@@ -1,6 +1,7 @@
 <script setup>
 
 import {ref} from 'vue'
+import Validation from '../modules/Validation';
 
 const username = ref("");
 const email = ref("");

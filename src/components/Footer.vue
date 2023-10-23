@@ -18,9 +18,7 @@
     
             <span>
     
-                Maid Hiring Management System Maid Hiring System offers trained
-                personnel that are pandemic prepared for your home. Select the best maid 
-                service and maid agency for your new domestic help. 
+               We provide professionals
     
             </span>
     
@@ -41,8 +39,8 @@
         background-color: rgb(6, 11, 28);
         display: grid;
         grid-auto-flow:column;
-        grid-template-columns: 400px 400px;
-        padding: 50px 300px;
+        grid-template-columns: repeat(auto-fill,minmax(400px, 1fr));
+        padding: 50px 0;
     
     }
     
@@ -50,7 +48,8 @@
     
         display: flex;
         flex-direction: column;
-    
+        padding: 0 80px;
+
     }
     
     footer div span{

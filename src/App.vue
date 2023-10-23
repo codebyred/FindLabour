@@ -19,7 +19,7 @@ import Footer from './components/Footer.vue'
 
 </main>
 
-<Footer></Footer>
+<Footer class="container"></Footer>
 
 </template>
 
