@@ -1,4 +1,4 @@
-function validate_email(email){
+export function validate_email(email){
 
     if(email.trim() === "")
 
@@ -8,7 +8,7 @@ function validate_email(email){
 
 }
 
-function validate_password(password){
+export function validate_password(password){
     
     if(password.trim() === "")
 
@@ -23,7 +23,7 @@ function validate_password(password){
 
 }
 
-function matchPassword(password, confpass){
+export function match_password(password, confpass){
 
     if(password !== confpass)
 
@@ -32,8 +32,3 @@ function matchPassword(password, confpass){
     return "";
 }
 
-export default {
-    validate_email,
-    validate_password,
-    matchPassword
-}

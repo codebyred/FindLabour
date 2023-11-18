@@ -1,10 +1,10 @@
 <script setup>
 
 import {ref} from 'vue'
-import { RouterLink, RouterView } from 'vue-router'
-import {io} from  "socket.io-client"
-import Validation from "../modules/Validation.js"
 
+import {loginStore} from "../stores/login.store"
+// import {io} from  "socket.io-client"
+import {validate_email, validate_password} from "../utils/formValidation.util.js"
 
 
 const email = ref("");
@@ -14,54 +14,21 @@ const emailErr = ref("");
 const passErr = ref("");
 
 
-const url = "http://localhost:3007/api/login";
+const userLogin = loginStore();
+const loginErr = userLogin.showLoginErr();
 
 
-const login = async()=>{
-
-    const user = {
-
-        email:email.value,
-        password:password.value
-
-    }
-
-    const res = await fetch(url,
-    {
-        method:'POST',
-        headers:{
-            'Content-type':"application/json"
-        },
-        body: JSON.stringify(user),
-        credentials: 'include'
-        
-    });
-
-    const data = await res.json();
-
-    if(!data.success){
-
-        passErr.value = data.message; 
-
-    }else{
-
-        console.log(data.message);
-        const socket = io("http://localhost:3000");
-    }
-
-}
-
-const validateForm = async (e)=>{
+const onSubmit = async (e)=>{
 
     e.preventDefault();
 
-    emailErr.value = Validation.validate_email(email.value);
+    emailErr.value = validate_email(email.value);
 
-    passErr.value = Validation.validate_password(password.value);
+    passErr.value = validate_password(password.value);
 
-    if(passErr.value !== "") return;
+    if(passErr.value) return;
     
-    await login();
+    await userLogin.login(email.value, password.value);
 
 }
 
@@ -73,9 +40,11 @@ const validateForm = async (e)=>{
 
     <div class="form-container">
 
-        <form @submit="validateForm">
+        <form @submit="onSubmit">
 
             <span>Sign in</span>
+
+            <p v-if="loginErr">{{ loginErr }}</p>
 
             <div class="form-group">
 

@@ -33,9 +33,7 @@
     footer{
     
         border-radius: 10px;
-        margin: auto;
-        width: 98%;
-        flex: 0 1 300px;
+        max-height: 200px;
         background-color: rgb(6, 11, 28);
         display: grid;
         grid-auto-flow:column;

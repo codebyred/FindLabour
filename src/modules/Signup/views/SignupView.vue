@@ -1,7 +1,7 @@
 <script setup>
 
 import {ref} from 'vue'
-import Validation from '../modules/Validation';
+import { validate_email, validate_password, match_password } from '../utils/formValidation.util.js';
 
 const username = ref("");
 const email = ref("");
@@ -12,60 +12,16 @@ const emailErr = ref("");
 const passErr = ref("");
 const confPassErr = ref("");
 
-const validateEmail = ()=>{
-
-    if(email.value.trim() === ""){
-
-        emailErr.value = "Please provide email";
-
-    }else{
-
-        emailErr.value = "";
-
-    }
-
-}
-
-const validatePassword = ()=>{
-
-    if(password.value.trim() === ""){
-
-        return passErr.value = "Please provide password";
-
-    }
-    if(password.value.length >= 1 && password.value.length <8){
-
-        return passErr.value = "Password should be 8 characters long"
-
-    }
-
-    return removePassErr();
-
-}
-
-const matchPassword = ()=>{
-
-    if(password.value !== confPassword.value){
-
-        return confPassErr.value = "password does not match";
-
-    }
-    return removePassErr();
-}
-
-const removePassErr = ()=>{
-
-    passErr.value = "";
-    confPassErr.value = "";
-}
 
 const validateForm = async (e)=>{
 
     e.preventDefault();
 
-    validateEmail();
-    validatePassword();
+    emailErr.value = validate_email();
+    passErr.value = validate_password();
+    confPassErr.value = match_password();
 
+    
 }
 
 

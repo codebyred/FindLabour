@@ -3,15 +3,15 @@
 import {ref} from 'vue'
 import { RouterView } from 'vue-router'
 
-import Header from './components/Header.vue'
-import Footer from './components/Footer.vue'
+import BaseHeader from '@/core/components/BaseHeader.vue'
+import BaseFooter from '@/core/components/BaseFooter.vue'
 
 
 </script>
 
 <template>
 
-<Header class="container"></Header>
+<BaseHeader class="container"></BaseHeader>
 
 <main class="container">
 
@@ -19,7 +19,7 @@ import Footer from './components/Footer.vue'
 
 </main>
 
-<Footer class="container"></Footer>
+<BaseFooter class="container"></BaseFooter>
 
 </template>
 
@@ -27,14 +27,12 @@ import Footer from './components/Footer.vue'
 
 main{
 
-  flex: 1 1 auto;
   min-height: 100vh;
 
 }
 
 .container{
 
-  width: 100%;
   margin-left:auto;
   margin-right:auto; 
   padding-left: 0.5rem;
@@ -44,9 +42,17 @@ main{
 
 @media (width > 1280px){
   .container{
-    max-width: 1400px;
+    width: 1400px;
   }
 
 }
+
+@media (width < 1280px){
+  .container{
+    width: 1100px;
+  }
+
+}
+
 
 </style>

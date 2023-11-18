@@ -1,5 +1,7 @@
 <script setup>
+import { authStore } from '@/core/stores/auth.store';
 
+const auth = authStore();
 </script>
 
 <template>
@@ -8,7 +10,7 @@
 
   <div class="hero texts">
 
-    <h1>Welcome to Kormi </h1>
+    <h1>Welcome to Kormi {{auth.logedIn}}</h1>
     
     <p> Hire skilled workers or Apply as a skilled worker to get hired</p>
 
@@ -264,15 +266,13 @@ nav a:hover{
 
   grid-area:b;
   width:100%;
-  border: 1px solid red;
 
 }
 
 .process-text-container{
 
-
-  border: 1px solid gold;
   padding:30px;
+
 }
 
 .material-symbols-outlined {
