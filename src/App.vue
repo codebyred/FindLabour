@@ -11,6 +11,7 @@ import BaseFooter from '@/core/components/BaseFooter.vue'
 
 <template>
 
+
 <BaseHeader class="container"></BaseHeader>
 
 <main class="container">
@@ -31,28 +32,8 @@ main{
 
 }
 
-.container{
-
-  margin-left:auto;
-  margin-right:auto; 
-  padding-left: 0.5rem;
-  padding-right: 0.5rem;
-
+.header-container{
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.1);
 }
-
-@media (width > 1280px){
-  .container{
-    width: 1400px;
-  }
-
-}
-
-@media (width < 1280px){
-  .container{
-    width: 1100px;
-  }
-
-}
-
 
 </style>

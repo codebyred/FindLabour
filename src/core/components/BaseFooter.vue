@@ -1,27 +1,45 @@
 <template>
 
-    <footer>
+    <footer class="footer">
     
-        <div class="contact">
+        <div class="footer__texts-container">
+
+            <div class="footer__text">
+                <h5>Contact</h5>
     
-            <h5>Contact</h5>
+                <span>Phone: 0111</span>
+
+                <span>Email: m@gmail.com</span>
+            </div>
     
-            <span>Phone: 0111</span>
+            <div class="footer__text">
     
-            <span>Email: m@gmail.com</span>
+                <h5>About us</h5>
+
+                <span>
+
+                    We provide professionals
+
+                </span>
+
+            </div>
+
+            <div class="footer__text">
+
+                <h5>About us</h5>
+    
+                <span>
+
+                    We provide professionals
+
+                </span>
+
+            </div>
     
         </div>
     
-        <div class="about">
-    
-            <h5>About us</h5>
-    
-            <span>
-    
-               We provide professionals
-    
-            </span>
-    
+        <div class="footer__copyright">
+            <p>All rights reserved to <a href="">@solomon grundy</a> </p>
         </div>
     
     </footer>
@@ -30,22 +48,21 @@
     
     <style scoped>
     
-    footer{
-    
+    .footer{
         border-radius: 10px;
-        max-height: 200px;
-        background-color: rgb(6, 11, 28);
-        display: grid;
-        grid-auto-flow:column;
-        grid-template-columns: repeat(auto-fill,minmax(400px, 1fr));
+        min-height: 300px;
+        box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px;
+        background-color: rgba(119, 67, 219, 0.75);
         padding: 50px 0;
-    
+        display:flex;
+        flex-direction:column;
+        justify-content:space-between;
     }
     
-    footer div{
+    .footer__texts-container{
     
         display: flex;
-        flex-direction: column;
+        justify-content: space-between;
         padding: 0 80px;
 
     }
@@ -64,6 +81,17 @@
         font-size: 30px;
         margin-bottom: 20px;
     
+    }
+
+    .footer__copyright{
+        font-size: 0.8rem;
+        text-align: center;
+    }
+
+    .footer__copyright a{
+        font-weight:bold;
+        color:rgba(255, 0, 0, 0.529);
+        text-decoration: none;
     }
     
     </style>

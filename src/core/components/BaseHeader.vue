@@ -1,96 +1,111 @@
 <script setup>
 
-import { RouterLink } from 'vue-router'
+import { RouterLink, useRouter } from 'vue-router'
 import { authStore } from '../stores/auth.store';
 import {computed, ref, watch} from 'vue'
+import BaseButton from '@/core/components/BaseButton.vue';
 
 const auth = authStore();
-const isLogedIn = ref(false);
-const showDropDown = ref(false);
-const authStatus = auth.getAuth();
+const router = useRouter();
 
-function toggle(){
-    showDropDown.value = !showDropDown.value;
+const notifMenu = ref(false);
+const profileMenu = ref(false);
+
+
+function showNotificationMenu(){
+    profileMenu.value = false;
+    notifMenu.value = !notifMenu.value;
 }
-function logout(){
+
+function showProfileMenu(){
+    notifMenu.value = false;
+    profileMenu.value = !profileMenu.value;
+}
+
+function logout(e){
+    profileMenu.value = false;
+    notifMenu.value = false;
     auth.resetAuth();
 }
 
-watch(authStatus,()=>{
+function goToSigninPage(){
+    router.push("/signin");
+}
 
-    isLogedIn.value = !isLogedIn.value;
-    console.log(authStatus.value);
-
-})
 
 </script>
 
 <template>
 
-<header>
+<header class="header">
 
-    <div class="header__left" >
+    <div class="header__logo" >
 
-        <p>Kormi</p>
+        Kormi
 
     </div>
 
     <nav class="header__nav">
-
         <RouterLink class="header__link" to="/">Home</RouterLink>
-        <RouterLink class="header__link" to="/hire">Hire</RouterLink>
-        <RouterLink class="header__link" to="/apply">Apply</RouterLink>
+        <RouterLink class="header__link header__featured" to="/hire">Find kormi</RouterLink>
+        <RouterLink class="header__link" to="/apply">Become Kormi</RouterLink>
         <RouterLink class="header__link" to="/about">About</RouterLink>
 
     </nav>
 
     <div class="header__right">
 
-        <RouterLink
-            class="header__btn"
-            v-show="!isLogedIn"
-            to="/signin"
-        >
-            SignIn
-        </RouterLink>
+        <BaseButton
+            class="signin-btn"
+            v-show="!auth.accessToken"
+            value = "SignIn"
+            @click="goToSigninPage"
+        />
+            
+        
 
         <div
-            v-show="isLogedIn" 
-            class="dropdown"
+            v-show="auth.accessToken" 
+            class="header__notification"
         >
 
-            <img class="notification" src="@/assets/images/bell.png"/>
+            <img
+                class="notification__icon"
+                :class="{active:notifMenu}"
+                src="@/assets/images/bell.png"
+                @click="showNotificationMenu"
+            />
 
-            <div class="dropdown__menu">
-                <ul>
-                    <li>new notif</li>
-                    <li>new notif</li>
-                </ul>
+            <div class="notification__menu-container" v-show="notifMenu">
+                <div class="notification__menu">
+                    <div class="notification__menu-list">Anwar Ahmed accepted you offer</div>
+                    <div class="notification__menu-list">new notif</div>
+                </div>
             </div>
 
         </div>
 
         <div 
-            v-show="isLogedIn"
-            class="dropdown"
+            v-show="auth.accessToken"
+            class="header__profile"
         >
 
             <div
-                class="profile"
-                @click="toggle"
+                class="profile__img-container"
+                @click="showProfileMenu"
             >
             </div>
 
             <div 
-                class="dropdown__menu"
-                :class="{active:showDropDown}"
+                class="profile__menu-container"
+                v-show="profileMenu"
             >
-                <ul>
-                    <li>User Name</li>
-                    <li><a href="#">Settings</a></li>
-                    <li><a href="">Edit Profile</a></li>
-                    <li><button @click="logout">Logout</button></li>
-                </ul>
+                <div class="profile__menu">
+                    <div class="profile__menu-list">{{ auth.user?.username }}</div>
+                    <div class="profile__menu-list">Settings</div>
+                    <div class="profile__menu-list">Edit Profile</div>
+                    <div class="profile__menu-list" @click="logout">Logout</div>
+                </div>
 
             </div>
 
@@ -106,34 +121,36 @@ watch(authStatus,()=>{
 
 @import url('https://fonts.googleapis.com/css2?family=Roboto&display=swap');
 
-header{
+.header{
 
-    width: 100%;
-    padding: 20px 30px;
+    padding: 20px 10px;
+    height:10vh;
     font-family: 'Roboto', sans-serif;
     font-size: 1rem;
     display: flex;
     justify-content: space-between;
     align-items: center;
-
+    position: relative;
 }
 
-.header__left{
+.header__logo{
     font-size: 1.5rem;
+    width: 200px;
+    color: #7743DB;
+    font-weight:bolder;
 }
 
 .header__nav{
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 40px;
+    gap: 50px;
     height:5vh;
 }
 
 .header__link{
     color:black;   
-    text-decoration: none;
-    
+    text-decoration: none; 
 }
 
 .header__link.router-link-exact-active{
@@ -149,57 +166,73 @@ header{
 .header__right{
     width: 200px;
     display: flex;
-    justify-content: center;
-    align-items: center;
+    justify-content: flex-end;
     flex-direction: row;
 }
-.header__btn{
 
-    border: 1px solid blueviolet;
-    padding: 0.15rem 0.6rem;
-    border-radius: 0.3em;
-    background:blueviolet;
-    color:white;
-    text-decoration: none;
-}
-
-.header__btn:hover{   
+.signin-btn:hover{   
     background: none;
     color: black;
 }
 
-.dropdown{ 
+.header__profile{ 
     height: 100%;
     width:100%;
-    position: relative;
     display: flex;
+    flex-direction: column;
     align-items: center;
     justify-content: center;
 }
 
-.notification{
-    width:30px;
-    height:30px;
+.header__notification{
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
 }
 
-.profile{
+.notification__icon{
+    width:30px;
+    height:auto;
+}
+
+.notification__menu-container{
+    position: absolute;
+    box-shadow: 0 5px 15px rgba(145, 92, 182, .4);
+    z-index: 9;
+    top:80%;
+    right:0;
+    width:500px;
+    background-color: whitesmoke;
+}
+
+.notification__menu-list{
+    padding:20px;
+    box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px;
+}
+.profile__img-container{
     width: 50px;
     height:50px;
     border-radius: 50%;
-    background:blueviolet;
+    background:#7743DB;
 }
 
-.dropdown__menu{
-    background: whitesmoke;
+.profile__menu-container{
+    border-radius: 10px;
+    box-shadow: 0 5px 15px rgba(145, 92, 182, .4);
+    top:80%;
+    right:0;
+    text-decoration: none;
     position: absolute;
-    top:100%;
-    opacity: 0;
+    z-index: 10;
+    width:300px;
+    background-color: whitesmoke;
 }
 
-.dropdown__menu.active{
-    opacity: 1;
+.profile__menu-list{
+    padding:20px;
+    box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px;
 }
-
-
 
 </style>

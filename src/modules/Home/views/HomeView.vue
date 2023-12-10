@@ -1,27 +1,31 @@
 <script setup>
-import { authStore } from '@/core/stores/auth.store';
 
-const auth = authStore();
+import BaseButton from '@/core/components/BaseButton.vue';
+import Services from '../components/Services.vue';
+import Process from '../components/Process.vue';
+
+// const auth = authStore();
+
 </script>
 
 <template>
 
-<section id="hero-banner">
+<div class="hero">
 
-  <div class="hero texts">
+  <div class="hero__texts">
 
-    <h1>Welcome to Kormi {{auth.logedIn}}</h1>
+    <h1>Welcome to <span class="hero__logo">Kormi</span></h1>
     
-    <p> Hire skilled workers or Apply as a skilled worker to get hired</p>
+    <p>Your Trusted Hub for Skilled Household Wizards!</p>
 
     <nav>
-      <a href="#services">Our services</a>
+      <a class="hero__btn" href="#service">Our services</a>
     </nav>
 
   </div>
 
-  <div class="svg-container">
-    <svg id="worker" xmlns="http://www.w3.org/2000/svg" data-name="Layer 1" width="743.70364" height="416.5" viewBox="0 0 743.70364 416.5" xmlns:xlink="http://www.w3.org/1999/xlink">
+  <div class="hero__img-container">
+    <svg class="hero__img" xmlns="http://www.w3.org/2000/svg" data-name="Layer 1" width="743.70364" height="416.5" viewBox="0 0 743.70364 416.5" xmlns:xlink="http://www.w3.org/1999/xlink">
     <path d="M743.934,373.90525H729.79831a1.81781,1.81781,0,0,1-1.81577-1.64688l-2.82949-29.00177h23.42618L745.74975,372.258A1.81784,1.81784,0,0,1,743.934,373.90525Z" transform="translate(-228.14818 -241.75)" fill="#e6e6e6"/>
     <path d="M748.54182,346.90525H725.19047a1.82648,1.82648,0,0,1-1.82433-1.82433v-4.37838a1.82647,1.82647,0,0,1,1.82433-1.82432h23.35135a1.82647,1.82647,0,0,1,1.82432,1.82432v4.37838A1.82648,1.82648,0,0,1,748.54182,346.90525Z" transform="translate(-228.14818 -241.75)" fill="#ccc"/>
     <path d="M578.54867,342.75h-56v-17c17.6958-12.31482,33.37451-11.24438,54,1Z" transform="translate(-228.14818 -241.75)" fill="#6c63ff"/>
@@ -58,101 +62,34 @@ const auth = authStore();
   </div>
 
 
-</section>
+</div>
 
-<section id="services">
+<div id="service">
 
-  <div class="top">
+  <Services></Services> 
 
-    <div class="services-texts">
+  <Process></Process>
 
-      <h1>Services</h1>
-
-      <p></p>
-
-    </div>
-
-    <div class="service-container">
-
-      <div class="service">
-        <span class="material-symbols-outlined" id="ctg">category</span>
-        <h1>Hire</h1>
-        <p>Hire professional</p>
-      </div>
-
-      <div class="service">
-        <span class="material-symbols-outlined" id="shake">handshake</span>
-        <h1>Apply</h1>
-        <p>Apply For jobs</p>
-      </div>
-
-      <div class="service">
-        <span class="material-symbols-outlined" id="pay">Payments</span>
-        <h1>Online Payment</h1>
-        <p>Pay or get paid online</p>
-      </div>
-
-
-    </div>
-
-  </div>
-
-  <div class="bottom">
-
-    <div class="process-header-container">
-      <h1>How does it work?</h1>
-
-    </div>
-
-    <div class="process-video-container">
-
-    </div>
-
-    <div class="process-text-container">
-
-      <div class="process-steps">
-        <span>1</span>
-        <h1>Select Category</h1>
-        <p>Go to hire page and select a category</p>
-      </div>
-
-      <div class="process-steps">
-        <span>2</span>
-        <h1>Search and select</h1>
-        <p>Search and select professional in your area</p>
-      </div>
-
-      <div class="process-steps">
-        <span>3</span>
-        <h1>Booking</h1>
-        <p>Click on book to get in touch with employee</p>
-      </div>
-
-    </div>
-
-  </div>
-
-</section>
+</div>
 
 </template>
 
 <style scoped>
 
-section {
 
-  width: 100%;
-  height: 100vh;
-
-}
-
-section:nth-child(1) {
-
+.hero{
   height: 90vh;
+  position: relative;
+  padding:0 10px;
   display: flex;
-  
 }
 
-.texts{
+.hero__logo{
+  color:#7743DB;
+  font-weight: bolder;
+
+}
+.hero__texts{
 
   width: 80%;
   display: flex;
@@ -160,12 +97,12 @@ section:nth-child(1) {
   justify-content: center;
 
 }
-.texts h1{
+.hero__texts h1{
 
-  font-size:2.5rem;
+  font-size:3rem;
 
 }
-.texts p{
+.hero__texts p{
 
   font-size:1rem;
   max-width: 30ch;
@@ -173,139 +110,58 @@ section:nth-child(1) {
   
 }
 
-#worker{
-  position: relative;
-  top:230px;
-  width: 100%;
-  
-  display: block;
+.hero__img-container{
+  top:300px;
+  right: 0; 
+  position: absolute;
+  height: fit-content;
 }
 
-nav{
+.hero__img{
+  aspect-ratio:16/9;
+  width:900px;
+  height: auto;
+}
+
+.hero nav{
   padding:20px 0;
 }
 
-nav a{
+.hero__btn{
 
   font-size: 1rem;
   margin-right: 1em;
   width: fit-content;
   text-decoration: none;
   color:white;
-  border: 1px solid blueviolet;
+  border: 1px solid #7743DB;
   padding: 0.32em 0.6em;
-  border-radius: 0.6em;
-  background:blueviolet;
+  border-radius: 10px;
+  background:#7743DB;
   transition: all 0.2s ease-in-out;
-  
+  animation: glow 2s infinite;
 }
 
-nav a:hover{
+.hero nav a:hover{
 
   color: rgba(255, 255, 255, 1);
   box-shadow: 0 5px 15px rgba(145, 92, 182, .4);
 
 }
 
-#services{
-  display: grid;
+#service{
+  height:100vh;
 }
 
-.services-texts{
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  margin-top: 20px;
-  font-size: 1rem;
-
-  & h1{
-    font-size: 1.15rem;
-    font-weight: bold;
+@keyframes glow {
+  0% {
+    box-shadow: 0 0 10px rgba(119, 67, 219, 0.5);
+  }
+  50% {
+    box-shadow: 0 0 20px rgba(119, 67, 219, 0.9);
+  }
+  100% {
+    box-shadow: 0 0 10px rgba(119, 67, 219, 0.5);
   }
 }
-
-.service-container{
-  display: grid;
-  grid-template-columns: repeat(3,1fr);
-  gap:10px;
-  margin-top: 80px;
-}
-
-.service{
-  
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  
-}
-
-.bottom{
-  display: grid;
-  grid-auto-flow: column;
-  grid-template-columns: 1fr 1fr;
-  grid-template-areas:"a a "
-                      "b c";
-}
-
-.process-header-container{
-  grid-area:a;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-
-  & h1{
-    font-size: 1.15rem;
-    font-weight: bold;
-  }
-
-}
-
-.process-video-container{
-
-  grid-area:b;
-  width:100%;
-
-}
-
-.process-text-container{
-
-  padding:30px;
-
-}
-
-.material-symbols-outlined {
-  font-variation-settings:
-  'FILL' 0,
-  'wght' 400,
-  'GRAD' 0,
-  'opsz' 24;
-  width:fit-content;
-}
-
-#ctg{
-  font-size:1.5rem;
-  color:rgba(51, 102, 255, 1); 
-  border-radius:5px;
-  padding:0.3em;
-  background-color: rgba(51, 102, 255, 0.2);
-}
-
-#shake{
-  font-size:1.5rem;
-  color:rgba(255, 80, 80, 1); 
-  border-radius:5px;
-  padding:0.3em;
-  background-color: rgba(255, 80, 80, 0.2);
-}
-
-#pay{
-  font-size:1.5rem;
-  color:rgba(0, 255, 0, 1); 
-  border-radius:5px;
-  padding:0.3em;
-  background-color: rgba(0, 255, 0, 0.2);
-}
-
 </style>

@@ -13,13 +13,13 @@ const passErr = ref("");
 const confPassErr = ref("");
 
 
-const validateForm = async (e)=>{
+const onSubmit = async (e)=>{
 
     e.preventDefault();
 
-    emailErr.value = validate_email();
-    passErr.value = validate_password();
-    confPassErr.value = match_password();
+    emailErr.value = validate_email(email.value);
+    passErr.value = validate_password(password.value);
+    confPassErr.value = match_password(password.value, confPassword.value);
 
     
 }
@@ -33,7 +33,7 @@ const validateForm = async (e)=>{
 
 <div class="form-container">
 
-    <form @submit="validateForm">
+    <form @submit="onSubmit">
 
         <span>Sign Up</span>
 
@@ -65,8 +65,6 @@ const validateForm = async (e)=>{
 
             <input
                 v-model="password"
-                @blur="validatePassword"
-                @keyup="removePassErr"
                 type="password" 
                 name="password" 
                 placeholder="Password"
@@ -80,8 +78,6 @@ const validateForm = async (e)=>{
 
             <input
                 v-model="confPassword"
-                @blur="matchPassword"
-                @keyup="removePassErr"
                 type="password" 
                 name="confirm-password" 
                 placeholder="Confirm password"
@@ -92,7 +88,7 @@ const validateForm = async (e)=>{
         </div>
 
 
-        <button class="btn signup-btn" type="submit">Sign in</button>
+        <button class="btn signup-btn" type="submit">Sign up</button>
 
         <p style=
         "
@@ -192,7 +188,7 @@ color:#fff;
 padding:8px 20px;    
 border: none;
 border-radius: 6px;
-background: #3b52e9;
+background: #7743DB;
 transition: all 0.2 ease;
 }
 

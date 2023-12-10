@@ -7,28 +7,21 @@ import {loginStore} from "../stores/login.store"
 import {validate_email, validate_password} from "../utils/formValidation.util.js"
 
 
-const email = ref("");
-const password = ref("");
-
-const emailErr = ref("");
-const passErr = ref("");
-
-
 const userLogin = loginStore();
-const loginErr = userLogin.showLoginErr();
-
 
 const onSubmit = async (e)=>{
 
-    e.preventDefault();
+    e.preventDefault()
 
-    emailErr.value = validate_email(email.value);
+    userLogin.setEmailErr(validate_email(userLogin.email));
 
-    passErr.value = validate_password(password.value);
+    userLogin.setPassErr(validate_password(userLogin.password));
 
-    if(passErr.value) return;
+    userLogin.setLoginErr("");
+
+    if(userLogin.emailErr|| userLogin.passErr) return;
     
-    await userLogin.login(email.value, password.value);
+    await userLogin.login();
 
 }
 
@@ -44,30 +37,30 @@ const onSubmit = async (e)=>{
 
             <span>Sign in</span>
 
-            <p v-if="loginErr">{{ loginErr }}</p>
+            <p v-if="userLogin.loginErr">{{ userLogin.loginErr }}</p>
 
             <div class="form-group">
 
                 <input
-                    v-model="email"
+                    v-model="userLogin.email"
                     type="email" name="email"
                     placeholder="Email"
                 >
 
-                <p v-if="emailErr"> {{ emailErr }} </p>
+                <p v-if="userLogin.emailErr"> {{ userLogin.emailErr }} </p>
 
             </div>
 
             <div class="form-group">
 
                 <input
-                    v-model="password"
+                    v-model="userLogin.password"
                     type="password" 
                     name="password" 
                     placeholder="Password"
                 > 
 
-                <p v-if="passErr"> {{ passErr }} </p>
+                <p v-if="userLogin.passErr"> {{ userLogin.passErr }} </p>
 
             </div>
 
@@ -174,7 +167,7 @@ form .btn{
     padding:8px 20px;    
     border: none;
     border-radius: 6px;
-    background: #3b52e9;
+    background-color: #7743DB;
     transition: all 0.2 ease;
 }
 .btn:active{

@@ -1,26 +1,28 @@
 import {defineStore} from "pinia"
 import {ref} from "vue"
+import {socket} from "@/api/socket.js"
 
 export const authStore = defineStore("auth",()=>{
-    
-    const accessToken = ref("");
-      
-    function getAuth(){
-        return accessToken;
+
+    const user = ref(JSON.parse( localStorage.getItem('userDetails') )?.user) ;  
+    const accessToken = ref( JSON.parse( localStorage.getItem('userDetails') )?.accessToken );
+
+    if(accessToken.value){
+        socket.connect();
     }
 
-    function setAuth(Token){
-
-        if(!Token){
-            return;
-        }
-
-        return accessToken.value = Token;
+    function setAuth(){
+        user.value = JSON.parse( localStorage.getItem('userDetails') )?.user;
+        accessToken.value = JSON.parse( localStorage.getItem('userDetails') )?.accessToken;
+        socket.connect();
     }
 
     function resetAuth(){
-        return accessToken.value = "";
+        socket.disconnect();
+        localStorage.removeItem('userDetails');
+        accessToken.value = null;
+        user.value = null;
     }
 
-    return{getAuth, setAuth, resetAuth}
+    return{user, accessToken, setAuth, resetAuth}
 })

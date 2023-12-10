@@ -1,43 +1,85 @@
 import { ref } from "vue"
 import {defineStore} from "pinia"
-import { authStore } from "../../../core/stores/auth.store"
+import { authStore } from "@/core/stores/auth.store"
+import { notificationStore } from "@/core/stores/notification.store"
 import { useRouter } from 'vue-router'
-import { fetchWrapper } from "../api/fetchWrapper"
+import { fetchWrapper } from "@/api/fetchWrapper"
 
 export const loginStore = defineStore("login",()=>{
     
+    const email = ref("");
+    const password = ref("");
+
+    const emailErr = ref("");
+    const passErr = ref("");
     const loginErr = ref("");
-    const auth = authStore();
+
     const router = useRouter();
+    const auth = authStore();
+    const notif = notificationStore();
 
+    function setEmail(newValue){
+        email.value = newValue
+    }
+
+    function setEmailErr(newValue){
+        emailErr.value = newValue;
+    }
+
+    function setPassErr(newValue){
+        passErr.value = newValue
+    }
+
+    function setLoginErr(newValue){
+        loginErr.value = newValue;
+    }
     
-    async function login(email,password){
+    async function login(){
 
-        const baseUrl = import.meta.env.VITE_API_URL;
+        try{
+            const data = await fetchWrapper.post(`login`,{
+                email:email.value,
+                password:password.value
+            });
 
-        const data = await fetchWrapper.post(`${baseUrl}/users/login`,{
-            email,
-            password
-        });
+            if(!data.success){
+                
+                loginErr.value = data.message;
+                return router.push("/signin");
+        
+            }
 
-        if(!data.success){
+            email.value = "";
+            password.value = "";
+
+            const {user, accessToken} = data;
+
+            const userDetails = {
+                user,
+                accessToken
+            }
+
+            localStorage.setItem('userDetails',JSON.stringify(userDetails));
+            auth.setAuth();
+            return router.push("/");
             
-            loginErr.value = data.message;
-            return router.push("/signin");
-    
+        }catch(e){
+            console.log(e);
         }
-
-        auth.setAuth(data.accessToken);
-
-        return router.push("/");
-
-            
     }
 
-    function showLoginErr(){
-        return loginErr;
-    }
-    
-    return {login, showLoginErr};
+
+    return {
+        email, 
+        password, 
+        emailErr, 
+        passErr, 
+        loginErr, 
+        login, 
+        setEmail,
+        setEmailErr,
+        setPassErr,
+        setLoginErr
+    };
 
 })

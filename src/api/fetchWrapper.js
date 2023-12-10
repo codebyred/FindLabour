@@ -1,7 +1,3 @@
-import { useRoute } from "vue-router";
-
-const router = useRoute();
-
 export const fetchWrapper = {
     get:request("GET"),
     post:request("POST"),
@@ -11,10 +7,10 @@ export const fetchWrapper = {
 function request(method){
 
     //
-    return async (url, userDetails)=>{
+    return async (endpoint, userDetails)=>{
 
         const options = {
-            method:"POST",
+            method:method,
             mode: "cors",
             headers:{
                 'Content-type':"application/json"
@@ -24,19 +20,15 @@ function request(method){
         if(userDetails){
             options.body = JSON.stringify(userDetails);
         }
-
-        return handleResponse(await fetch(url, options));
+    
+        return handleResponse(await fetch(`${import.meta.env.VITE_API_GATEWAY_URL}/api/${endpoint}`, options));
 
     }
 }
 
 async function handleResponse(res){
-
-    try{
-        const data = await res.json();
-        return data;
-    }catch(err){
-        console.log(err);
-    }
-    
+ 
+    const data = await res.json();
+    return data;
+  
 }
