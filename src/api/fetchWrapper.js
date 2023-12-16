@@ -21,7 +21,7 @@ function request(method){
             options.body = JSON.stringify(userDetails);
         }
     
-        return handleResponse(await fetch(`${import.meta.env.VITE_API_GATEWAY_URL}/api/${endpoint}`, options));
+        return handleResponse(await fetch(`${import.meta.env.VITE_API_GATEWAY_URL}/${endpoint}`, options));
 
     }
 }

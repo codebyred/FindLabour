@@ -2,16 +2,37 @@ import {defineStore} from "pinia"
 import {ref} from "vue"
 
 import {socket} from "@/api/socket.js"
+import { useAuthStore } from "./auth.store"
 
 export const notificationStore = defineStore("notification",()=>{
     
-    const notifications = ref(null);   
+    const list = ref([]);   
+    const Err = ref(false);
+    const auth = useAuthStore();
 
-    function notifyWorker(sender, receiver){
-        console.log("sending request")
-        socket.emit("notify",{sender, receiver, message:`${sender} wants to hire you`});
+    function notifyWorker(receiver){
+        
+        return socket.emit("notify",{
+            sender: auth.user?.email,
+            receiver,
+            message:`${auth.user?.email} wants to hire you`
+        });
+        
+    }
+
+    function set(newNotification){
+        notifications.value.push(newNotification);
+    }
+
+    function clearErr(){
+        Err.value = false;
     }
 
 
-    return{notifications, notifyWorker}
+    return{
+        list, 
+        Err, 
+        set, 
+        notifyWorker,         
+        clearErr}
 })

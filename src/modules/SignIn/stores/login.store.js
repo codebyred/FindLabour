@@ -1,7 +1,6 @@
 import { ref } from "vue"
 import {defineStore} from "pinia"
-import { authStore } from "@/core/stores/auth.store"
-import { notificationStore } from "@/core/stores/notification.store"
+import { useAuthStore } from "@/core/stores/auth.store"
 import { useRouter } from 'vue-router'
 import { fetchWrapper } from "@/api/fetchWrapper"
 
@@ -15,8 +14,7 @@ export const loginStore = defineStore("login",()=>{
     const loginErr = ref("");
 
     const router = useRouter();
-    const auth = authStore();
-    const notif = notificationStore();
+    const auth = useAuthStore();
 
     function setEmail(newValue){
         email.value = newValue
@@ -39,7 +37,8 @@ export const loginStore = defineStore("login",()=>{
         try{
             const data = await fetchWrapper.post(`login`,{
                 email:email.value,
-                password:password.value
+                password:password.value,
+                role:"user"
             });
 
             if(!data.success){
@@ -55,12 +54,13 @@ export const loginStore = defineStore("login",()=>{
             const {user, accessToken} = data;
 
             const userDetails = {
-                user,
+                email:user.email,
+                username:user.username,
                 accessToken
             }
 
-            localStorage.setItem('userDetails',JSON.stringify(userDetails));
-            auth.setAuth();
+            
+            auth.setAuth(userDetails);
             return router.push("/");
             
         }catch(e){

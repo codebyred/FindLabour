@@ -4,11 +4,11 @@ import {ref, onMounted, onBeforeMount, onBeforeUpdate} from 'vue'
 import { RouterView } from 'vue-router';
 import CategoryCard from '../components/CategoryCard.vue';
 import Search from '../components/Search.vue';
-import { workerCategoryStore } from '../stores/workerCategory.store';
+import { workerStore } from '../stores/worker.store';
 
-const workerCategory = workerCategoryStore();
+const worker = workerStore();
 
-onMounted(workerCategory.getCategories);
+onMounted(worker.fetchCategories);
 
 </script>
 
@@ -18,24 +18,24 @@ onMounted(workerCategory.getCategories);
 
 <Search/>
 
-<div class="loading-container" v-if="workerCategory.loading" >
+<div class="loading-container" v-if="worker.loading" >
 
     <div class="loading"></div>
     
 </div>
 
-<div class="error" v-if="workerCategory.err">
-    <button @click="workerCategory.getCategories">Retry</button>
+<div class="error" v-if="worker.err">
+    <button @click="worker.fetchCategories">Retry</button>
 </div>
 
 <div class="workerCategory-cards-container" v-else>
 
     <CategoryCard        
-        v-for="category in workerCategory.categories"
+        v-for="category in worker.categories"
         :key="category.id"
         :category_name="category.name"
         :description="category.description"
-        @browse="workerCategory.browse">
+        @browse="worker.viewList">
     </CategoryCard>
 
 </div>

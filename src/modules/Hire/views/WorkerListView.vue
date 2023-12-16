@@ -3,11 +3,10 @@ import {onMounted} from 'vue';
 import {RouterView} from 'vue-router'
 import Search from '../components/Search.vue';
 import BaseButton from '@/core/components/BaseButton.vue';
-import { workerListStore } from '../stores/workerList.store.js';
+import { workerStore } from '../stores/worker.store.js';
 
-const workerList = workerListStore();
-onMounted(workerList.getWorkerList);
-
+const worker = workerStore();
+onMounted(worker.fetchList);
 
 </script>
 
@@ -17,23 +16,23 @@ onMounted(workerList.getWorkerList);
 
 <Search/>
 
-<div class="loading-container" v-if="workerList.loading" >
+<div class="loading-container" v-if="worker.loading" >
     <div class="loading"></div>
     
 </div>
 
-<div class="error" v-if="workerList.err">
-    <button @click="workerCategory.getCategories">Retry</button>
+<div class="error" v-if="worker.err">
+    <button @click="worker.fetchList">Retry</button>
 </div>
 
 <div class="plumber__list-container">
 
     <div class="plumber__list-item"
-        v-for="worker in workerList.workers"> 
-        <span>{{ worker.username }}</span>
+        v-for="w in worker.list"> 
+        <span>{{ `${w.id} ${w.firstName}  ${w.lastName}` }}</span>
         <p>Rating</p>
         <p>Location</p>
-        <BaseButton value="Details" @click="workerList.showDetails(worker.id)"></BaseButton>
+        <BaseButton value="Details" @click="worker.viewDetails(w.id)"></BaseButton>
 
     </div>
 

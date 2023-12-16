@@ -1,11 +1,11 @@
 <script setup>
 
 import { RouterLink, useRouter } from 'vue-router'
-import { authStore } from '../stores/auth.store';
+import { useAuthStore } from '../stores/auth.store';
 import {computed, ref, watch} from 'vue'
 import BaseButton from '@/core/components/BaseButton.vue';
 
-const auth = authStore();
+const auth = useAuthStore();
 const router = useRouter();
 
 const notifMenu = ref(false);
@@ -57,7 +57,7 @@ function goToSigninPage(){
 
         <BaseButton
             class="signin-btn"
-            v-show="!auth.accessToken"
+            v-show="!auth.logedIn"
             value = "SignIn"
             @click="goToSigninPage"
         />
@@ -65,7 +65,7 @@ function goToSigninPage(){
         
 
         <div
-            v-show="auth.accessToken" 
+            v-show="auth.logedIn" 
             class="header__notification"
         >
 
@@ -86,7 +86,7 @@ function goToSigninPage(){
         </div>
 
         <div 
-            v-show="auth.accessToken"
+            v-show="auth.logedIn"
             class="header__profile"
         >
 

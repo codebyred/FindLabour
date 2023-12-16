@@ -1,11 +1,28 @@
 <script setup>
-import {authStore} from "@/core/stores/auth.store.js"
-import { workerListStore } from "../stores/workerList.store.js";
+import { computed, ref } from "vue";
+import { workerStore } from "../stores/worker.store.js";
 import {notificationStore} from "@/core/stores/notification.store.js"
+import {useAuthStore} from "@/core/stores/auth.store.js"
 
-const auth = authStore();
-const workerList = workerListStore();
+
+const worker = workerStore();
 const notification = notificationStore();
+const auth = useAuthStore();
+
+const workerId = window.location.pathname.split('/').pop();
+const workerDetails = worker.get(workerId);
+
+const showError = ref(false);
+
+
+const notifyWorker = (workerEmail)=>{
+
+    if(!auth.logedIn)
+        return showError.value = true;
+
+    notification.notifyWorker(workerEmail);
+
+}
 
 </script>
 
@@ -20,24 +37,30 @@ const notification = notificationStore();
         </div>
 
         <div class="worker-profile__texts">
-            <p class="worker-profile__name">{{ workerList.workerDetails.username }}</p>
-            <p>{{ workerList.workerDetails.email }}</p>
+            <p class="worker-profile__name">{{ `${workerDetails.firstName} ${workerDetails.lastName}` }}</p>
+            <p>{{ workerDetails.email }}</p>
         </div>
 
         <div class="worker-profile__buttons">
-            <button @click="notification.notifyWorker(auth.user?.email, workerList.workerDetails.email)">Hire</button>
+            <button @click="notifyWorker(workerDetails)">Hire</button>
+        </div>
+
+        <div class="dialog" v-show="showError">
+            <p>You are not Signedin</p>
+            <button>Signin</button>
+            <button @click="showError = false">Close</button>
         </div>
         
     </div>
 
     <div class="worker-service-container">
         
-        <div class="worker-service" v-for="service in workerList.workerDetails.pricing">
+        <!-- <div class="worker-service" v-for="service in workerDetails">
             
             <p>{{ service[0] }}</p>
             <p>{{ service[1] }}</p>
             
-        </div>
+        </div> -->
 
     </div>
 

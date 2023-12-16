@@ -1,6 +1,6 @@
 import {io} from "socket.io-client";
 
-export const socket = io(`${import.meta.env.VITE_API_GATEWAY_URL}`,{ autoConnect: false});
+export const socket = io(`${import.meta.env.VITE_NOTIFICATION_SERVER_URL}`,{ autoConnect: false});
 
 socket.on("connect",()=>{
 

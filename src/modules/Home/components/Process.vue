@@ -7,9 +7,9 @@
     </div>
 
     <div class="process__video-container">
-        <iframe class="process__video" width="100%" height="100%"
+        <!-- <iframe class="process__video" width="100%" height="100%"
             src="https://www.youtube.com/embed/QSPBj6zzktg">
-        </iframe>
+        </iframe> -->
     </div>
 
     <div class="process__texts-container">
