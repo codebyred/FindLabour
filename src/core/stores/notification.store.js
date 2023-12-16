@@ -11,6 +11,8 @@ export const notificationStore = defineStore("notification",()=>{
     const auth = useAuthStore();
 
     function notifyWorker(receiver){
+
+        console.log("sending")
         
         return socket.emit("notify",{
             sender: auth.user?.email,

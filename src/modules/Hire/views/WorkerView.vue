@@ -1,9 +1,11 @@
 <script setup>
 import { computed, ref } from "vue";
+import {useRouter} from "vue-router"
 import { workerStore } from "../stores/worker.store.js";
 import {notificationStore} from "@/core/stores/notification.store.js"
 import {useAuthStore} from "@/core/stores/auth.store.js"
 
+const router = useRouter();
 
 const worker = workerStore();
 const notification = notificationStore();
@@ -42,12 +44,12 @@ const notifyWorker = (workerEmail)=>{
         </div>
 
         <div class="worker-profile__buttons">
-            <button @click="notifyWorker(workerDetails)">Hire</button>
+            <button @click="notifyWorker(workerDetails.email)">Hire</button>
         </div>
 
         <div class="dialog" v-show="showError">
             <p>You are not Signedin</p>
-            <button>Signin</button>
+            <button @click="router.push('/signin')">Signin</button>
             <button @click="showError = false">Close</button>
         </div>
         

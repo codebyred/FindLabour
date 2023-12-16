@@ -5,7 +5,7 @@ import { useRouter } from 'vue-router';
 
 export const workerStore = defineStore("workers",()=>{
 
-    const list = ref(null);
+    const list = ref(JSON.parse( localStorage.getItem('worker-list') ));
     const categories = ref(null);
 
     const err = ref(null);
@@ -32,7 +32,9 @@ export const workerStore = defineStore("workers",()=>{
         err.value = null;
         try{
             list.value = await fetchWrapper.get('worker');
+            
             err.value = null;
+            localStorage.setItem("worker-list", JSON.stringify(list.value));
         }catch(e){
             err.value = e;
             loading.value= false;

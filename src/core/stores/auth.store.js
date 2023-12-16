@@ -2,13 +2,14 @@ import {defineStore} from "pinia"
 import {ref, reactive} from "vue"
 import {socket} from "@/api/socket.js"
 
-export const useAuthStore = defineStore("auth",()=>{
+export const useAuthStore = defineStore("auth", ()=>{
 
-    const user = reactive( JSON.parse( localStorage.getItem('user') ) );
+    const user = ref( JSON.parse( localStorage.getItem('user') ) );
     const logedIn = ref(false);
 
-    if(user?.accessToken){
+    if(user){
         logedIn.value = true;
+        
         socket.connect();
     }
 
@@ -20,6 +21,7 @@ export const useAuthStore = defineStore("auth",()=>{
         }
 
         logedIn.value = true;
+        user.value = userDetails;
 
         localStorage.setItem('user',JSON.stringify(userDetails));
         socket.connect();
