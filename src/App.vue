@@ -1,10 +1,12 @@
 <script setup>
 
-import {ref} from 'vue'
+import {onMounted, ref} from 'vue'
 import { RouterView } from 'vue-router'
 
 import BaseHeader from '@/core/components/BaseHeader.vue'
 import BaseFooter from '@/core/components/BaseFooter.vue'
+
+
 
 
 </script>

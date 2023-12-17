@@ -7,10 +7,16 @@ export const useAuthStore = defineStore("auth", ()=>{
     const user = ref( JSON.parse( localStorage.getItem('user') ) );
     const logedIn = ref(false);
 
-    if(user){
-        logedIn.value = true;
-        
-        socket.connect();
+    function reconnect(){
+        if(user){
+            logedIn.value = true;
+
+            socket.auth = {
+                email:user.value.email,
+                password:user.value.password
+            }
+            socket.connect();
+        }
     }
 
     function setAuth(userDetails){
@@ -38,5 +44,5 @@ export const useAuthStore = defineStore("auth", ()=>{
 
     }
 
-    return{user, logedIn, setAuth, resetAuth}
+    return{user, logedIn, setAuth, resetAuth, reconnect}
 })

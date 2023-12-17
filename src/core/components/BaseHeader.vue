@@ -2,7 +2,7 @@
 
 import { RouterLink, useRouter } from 'vue-router'
 import { useAuthStore } from '../stores/auth.store';
-import {computed, ref, watch} from 'vue'
+import {computed, ref, watch, onMounted} from 'vue'
 import BaseButton from '@/core/components/BaseButton.vue';
 
 const auth = useAuthStore();
@@ -31,6 +31,10 @@ function logout(e){
 function goToSigninPage(){
     router.push("/signin");
 }
+
+onMounted(
+  auth.reconnect
+)
 
 
 </script>
