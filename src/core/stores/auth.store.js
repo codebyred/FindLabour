@@ -8,12 +8,11 @@ export const useAuthStore = defineStore("auth", ()=>{
     const logedIn = ref(false);
 
     function reconnect(){
-        if(user){
+        if(user.value){
             logedIn.value = true;
 
             socket.auth = {
-                email:user.value.email,
-                password:user.value.password
+                email:user.value.email
             }
             socket.connect();
         }
