@@ -1,10 +1,10 @@
 import { ref } from "vue"
 import {defineStore} from "pinia"
-import { useAuthStore } from "@/core/stores/auth.store"
+
 import { useRouter } from 'vue-router'
 import { fetchWrapper } from "@/api/fetchWrapper"
 
-export const loginStore = defineStore("login",()=>{
+export const useLoginStore = defineStore("login",()=>{
     
     const email = ref("");
     const password = ref("");
@@ -59,7 +59,6 @@ export const loginStore = defineStore("login",()=>{
                 accessToken
             }
 
-            
             auth.setAuth(userDetails);
             return router.push("/");
             

@@ -1,15 +1,15 @@
 <script setup>
-import { computed, ref } from "vue";
+
 import {useRouter} from "vue-router"
-import { workerStore } from "../stores/worker.store.js";
-import {notificationStore} from "@/core/stores/notification.store.js"
-import {useAuthStore} from "@/core/stores/auth.store.js"
+import { useWorkerStore } from "../stores/worker.store.js";
+import {useNotificationStore} from "@/core/stores/notification.store.js"
+import {useAuthStore} from "@/core/stores/authStore.store.js"
 
 const router = useRouter();
 
 const worker = workerStore();
-const notification = notificationStore();
-const auth = useAuthStore();
+const notificationStore = useNotificationStore();
+const authStore = useAuthStore();
 
 const workerId = window.location.pathname.split('/').pop();
 const workerDetails = worker.get(workerId);
@@ -19,7 +19,7 @@ const showError = ref(false);
 
 const notifyWorker = (workerEmail)=>{
 
-    if(!auth.logedIn)
+    if(!authStore.logedIn)
         return showError.value = true;
 
     notification.notifyWorker(workerEmail);

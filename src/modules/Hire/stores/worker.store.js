@@ -3,9 +3,9 @@ import {defineStore} from 'pinia';
 import { fetchWrapper } from '@/api/fetchWrapper';
 import { useRouter } from 'vue-router';
 
-export const workerStore = defineStore("workers",()=>{
+export const useWorkerStore = defineStore("workers",()=>{
 
-    const list = ref(JSON.parse( localStorage.getItem('worker-list') ));
+    const workers = ref(JSON.parse( localStorage.getItem('worker-workers') ));
     const categories = ref(null);
 
     const err = ref(null);
@@ -27,14 +27,14 @@ export const workerStore = defineStore("workers",()=>{
         }
     }
 
-    async function fetchList(){
+    async function fetchWorkers(){
         loading.value = true;
         err.value = null;
         try{
-            list.value = await fetchWrapper.get('worker');
+            workers.value = await fetchWrapper.get('worker');
             
             err.value = null;
-            localStorage.setItem("worker-list", JSON.stringify(list.value));
+            localStorage.setItem("worker-workers", JSON.stringify(workers.value));
         }catch(e){
             err.value = e;
             loading.value= false;
@@ -44,10 +44,10 @@ export const workerStore = defineStore("workers",()=>{
     }
 
     function get(workerId){
-        return list.value.find(worker => worker.id === Number(workerId));      
+        return workers.value.find(worker => worker.id === Number(workerId));      
     }
 
-    function viewList(categoryName){
+    function viewWorkers(categoryName){
         router.push(`/hire/${categoryName}`);
     }
 
@@ -57,14 +57,14 @@ export const workerStore = defineStore("workers",()=>{
 
 
     return {
-            list,
+            workers,
             categories,
             err,
             loading,
             get, 
-            fetchList, 
+            fetchWorkers, 
             fetchCategories, 
-            viewList, 
+            viewWorkers, 
             viewDetails
     }
 })

@@ -1,7 +1,7 @@
 <script setup>
 
 import {ref} from 'vue'
-
+import { useAuthStore } from "@/core/stores/auth.store"
 import {loginStore} from "../stores/login.store"
 // import {io} from  "socket.io-client"
 import {validate_email, validate_password} from "../utils/formValidation.util.js"
