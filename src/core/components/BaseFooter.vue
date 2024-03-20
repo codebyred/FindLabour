@@ -49,8 +49,8 @@
     <style scoped>
     
     .footer{
-        border-radius: 10px;
-        min-height: 300px;
+        border-radius: 12px;
+        min-height: 320px;
         box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px;
         background-color: rgba(119, 67, 219, 0.75);
         padding: 50px 0;
