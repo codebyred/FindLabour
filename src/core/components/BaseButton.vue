@@ -15,9 +15,9 @@ const props = defineProps(['className','btnValue']);
 
 <style scoped>
 .btn{
-    font-size: 1rem;
+    font-size: 1.2rem;
     border: 1px solid var(--color-base-button);
-    padding: 10px 15px;
+    padding: 11px 15px;
     border-radius: 10px;
     background:#7743DB;
     color:white;
