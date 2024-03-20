@@ -82,8 +82,8 @@ onMounted(
 
             <div class="notification__menu-container" v-show="notifMenu">
                 <div class="notification__menu">
-                    <div class="notification__menu-list">Anwar Ahmed accepted you offer</div>
-                    <div class="notification__menu-list">new notif</div>
+                    <div class="notification__menu-list">Adnan Ahmed accepted you offer</div>
+                    <div class="notification__menu-list">new notification</div>
                 </div>
             </div>
 
